@@ -19,11 +19,11 @@ print(torch.version.cuda)  # Should show 11.8 or similar
 
 class Args():
     def __init__(self):
-        self.base_path = os.cwd() 
-        self.base_model = 'yolo11l.pt'
+        self.base_path = os.getcwd() 
+        self.base_model = 'yolo11n.pt'
 
         # Training arguments (inputs to model.train)
-        self.yaml_path = os.path.join(self.base_path, 'data/fish_dataset.yaml') # Insert name of dataset yaml here
+        self.yaml_file_path = os.path.join(self.base_path, 'data/fish_dataset.yaml') # Insert name of dataset yaml here
         self.epochs = 300 
         self.images = 640
         self.batch = 8                  # How many images go into the gpu at once (adjust as needed)
@@ -36,10 +36,11 @@ class Args():
         self.mosaic = True              # Use mosaic augmentation 
         self.mixup = True               # Use mixup augmentation 
         self.cos_lr = True              # Cosing annealing learning rate
-        self.project_dir = 'l_logs'     # Where logs and weights are saved 
+        self.project_dir = 'runs/n_logs_v1'     # Where logs and weights are saved 
 
         # Saving arguments (how should things be named and where should they go)
         self.save_location = os.path.join(self.base_path, '/models/new')
+        self.model_save_name = 'yolo11n_2016_fish_v3.pt'
 
         # Optional formats 
         self.save_onnx = False
@@ -93,7 +94,7 @@ for param in small_model.model.model.parameters():
     param.requires_grad = True
 
 # Save the trained model
-trained_model_path = os.path.join(args.save_location, "yolo11l_fish_2016_v2.pt")
+trained_model_path = os.path.join(args.save_location, args.model_save_name)
 small_model.save(trained_model_path)
 print(f"Trained model saved to {trained_model_path}")
 
