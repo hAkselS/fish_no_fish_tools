@@ -1,5 +1,13 @@
 """
-Spec: Use this script to train yolo 11 nano, medium or larger models. 
+File:   train_fnf_model.py
+
+Spec:   Use this script to train yolo 11 nano, medium or larger models. 
+        All arguements are stored in the Args class such that one only
+        needs to modify the Args class to make changes to the training process. 
+
+Usage:  This script should always reside in the root directory   
+        of the repositor so that any path is the cwd directory 
+        plus some arguement. 
 
 """
 

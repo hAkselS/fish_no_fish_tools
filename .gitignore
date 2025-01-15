@@ -1,0 +1,4 @@
+# File: .gitignore 
+
+data/* 
+!data/example_set
