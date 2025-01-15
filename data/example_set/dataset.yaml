@@ -1,0 +1,8 @@
+train: /home/gpu_enjoyer/fish_no_fish/fish_no_fish/test_scripts/data_dump/fish_dataset/train/images  # Path to training images
+val: /home/gpu_enjoyer/fish_no_fish/fish_no_fish/test_scripts/data_dump/fish_dataset/val/images # Path to validation images
+
+# Number of classes (adjust to match your dataset)
+nc: 1  # Change this to the number of classes in your dataset
+
+# Class names
+names: ['fish']  # List the names of your classes here
