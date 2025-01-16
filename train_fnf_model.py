@@ -13,6 +13,7 @@ Usage:  This script should always reside in the root directory
 
 import torch
 import os
+import yaml
 from ultralytics import YOLO
 print(torch.cuda.is_available())  # Should return True
 print(torch.version.cuda)  # Should show 11.8 or similar
@@ -36,7 +37,8 @@ class Args():
         self.mosaic = True              # Use mosaic augmentation 
         self.mixup = True               # Use mixup augmentation 
         self.cos_lr = True              # Cosing annealing learning rate
-        self.project_dir = 'runs/n_logs_v1'     # Where logs and weights are saved 
+        self.project_dir = 'runs/n_logs_v1'     # Where logs and weights are saved
+        self.auto_augment = 'autoaugment'       # Automatic data augmentation 
 
         # Saving arguments (how should things be named and where should they go)
         self.save_location = os.path.join(self.base_path, 'models/new')
@@ -46,6 +48,28 @@ class Args():
         self.save_onnx = False
         self.save_ncnn = False 
         self.save_tflite = False 
+
+
+
+    def write_yaml_cb(self, epoch, metrics):
+        print("CALLBACK HAS BEEN CALLED... BACK")
+        # Define your file path, here 'training_results.yaml'
+        file_path = 'training_results.yaml'
+        
+        # Create a dictionary to hold the metrics
+        data = {
+            'epoch': epoch,
+            'precision': metrics['precision'],
+            'recall': metrics['recall'],
+            'mAP_0.5': metrics['mAP_0.5'],
+            'box_loss': metrics['box_loss'],
+            'obj_loss': metrics['obj_loss'],
+            'cls_loss': metrics['cls_loss']
+        }
+        
+        # Open the file in append mode
+        with open(file_path, mode='a') as file:
+            yaml.dump(data, file, default_flow_style=False, sort_keys=False)
 
 args = Args() # Instance of the argument holding class 
 
@@ -59,6 +83,9 @@ print(f"Using device: {device}")
 
 # Load the smaller YOLO11 model
 fish_no_fish = YOLO(args.base_model) # YOLO("yolo11X.pt") where X = n, m, or l 
+
+# Add a training call back, mostly to track MAP scores and such
+# fish_no_fish.add_callback("on_train_epoch_end", args.write_yaml_cb) # metrics do not currently come through
 
 # Move the model to the correct device
 fish_no_fish.model.to(device)
@@ -85,6 +112,7 @@ fish_no_fish.train(
     mixup=args.mixup,   # Use MixUp augmentation
     cos_lr=args.cos_lr,  # Cosine annealing learning rate
     project=args.project_dir,  # TensorBoard logging directory
+    auto_augment=args.auto_augment, # Automatic data augmentation
 )
 
 print("Training complete!")
@@ -109,13 +137,6 @@ if args.save_tflite:
         print("TFLite model exported successfully!")
     except Exception as e:
         print(f"TFLite export failed: {e}")
-
-# # Export to TensorFlow Edge TPU
-# try:
-#     fish_no_fish.export(format="edgetpu")
-#     print("Edge TPU model exported successfully!")
-# except Exception as e:
-#     print(f"Edge TPU export failed: {e}")
 
 # Export to NCNN format
 if args.save_ncnn:    
