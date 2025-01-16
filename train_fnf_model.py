@@ -58,18 +58,18 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f"Using device: {device}")
 
 # Load the smaller YOLO11 model
-small_model = YOLO(args.base_model) # YOLO("yolo11X.pt") where X = n, m, or l 
+fish_no_fish = YOLO(args.base_model) # YOLO("yolo11X.pt") where X = n, m, or l 
 
 # Move the model to the correct device
-small_model.model.to(device)
+fish_no_fish.model.to(device)
 
 # Freeze the first few layers for the first 10 epochs for better fine-tuning
 # OPTIONAL (EXPERIMENT WITH THIS)
-for param in small_model.model.model.parameters():
+for param in fish_no_fish.model.model.parameters():
     param.requires_grad = False  # Freeze all layers initially
 
 # Training hyperparameters
-small_model.train(
+fish_no_fish.train(
     data=args.yaml_file_path,
     epochs=args.epochs,
     imgsz=args.images,
@@ -90,27 +90,14 @@ small_model.train(
 print("Training complete!")
 
 # Unfreeze all layers after the initial phase
-for param in small_model.model.model.parameters():
+for param in fish_no_fish.model.model.parameters():
     param.requires_grad = True
 
-# Save the trained model
-trained_model_path = os.path.join(args.save_location, args.model_save_name)
-small_model.save(trained_model_path)
-print(f"Trained model saved to {trained_model_path}")
-
-# Save the model weights separately for further use
-weights_path = os.path.join(args.save_location, "yolo11l_fish_2016_v2.pth")
-torch.save(small_model.model.state_dict(), weights_path)
-print(f"Weights saved to {weights_path}")
-
-# Evaluate model performance
-metrics = small_model.val(data=args.yaml_file_path, device=device)
-print(metrics)
 
 # Export the trained model to ONNX format
 if args.save_onnx:
     try:
-        small_model.export(format="onnx")
+        fish_no_fish.export(format="onnx")
         print("ONNX model exported successfully!")
     except Exception as e:
         print(f"ONNX export failed: {e}")
@@ -118,14 +105,14 @@ if args.save_onnx:
 # # Export to TensorFlow Lite
 if args.save_tflite:
     try:
-        small_model.export(format="tflite")
+        fish_no_fish.export(format="tflite")
         print("TFLite model exported successfully!")
     except Exception as e:
         print(f"TFLite export failed: {e}")
 
 # # Export to TensorFlow Edge TPU
 # try:
-#     small_model.export(format="edgetpu")
+#     fish_no_fish.export(format="edgetpu")
 #     print("Edge TPU model exported successfully!")
 # except Exception as e:
 #     print(f"Edge TPU export failed: {e}")
@@ -133,7 +120,7 @@ if args.save_tflite:
 # Export to NCNN format
 if args.save_ncnn:    
     try:
-        small_model.export(format="ncnn")  # Creates .param and .bin files
+        fish_no_fish.export(format="ncnn")  # Creates .param and .bin files
         print("NCNN files exported successfully!")
     except Exception as e:
         print(f"NCNN export failed: {e}")
