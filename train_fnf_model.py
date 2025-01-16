@@ -24,7 +24,7 @@ class Args():
 
         # Training arguments (inputs to model.train)
         self.yaml_file_path = os.path.join(self.base_path, 'data/fish_dataset.yaml') # Insert name of dataset yaml here
-        self.epochs = 300 
+        self.epochs = 300
         self.images = 640
         self.batch = 8                  # How many images go into the gpu at once (adjust as needed)
         self.initial_lr = 0.001         # Initial learning rate (for Cosine Annealing)
@@ -39,7 +39,7 @@ class Args():
         self.project_dir = 'runs/n_logs_v1'     # Where logs and weights are saved 
 
         # Saving arguments (how should things be named and where should they go)
-        self.save_location = os.path.join(self.base_path, '/models/new')
+        self.save_location = os.path.join(self.base_path, 'models/new')
         self.model_save_name = 'yolo11n_2016_fish_v3.pt'
 
         # Optional formats 
@@ -104,7 +104,7 @@ torch.save(small_model.model.state_dict(), weights_path)
 print(f"Weights saved to {weights_path}")
 
 # Evaluate model performance
-metrics = small_model.val(data=args.yaml_path, device=device)
+metrics = small_model.val(data=args.yaml_file_path, device=device)
 print(metrics)
 
 # Export the trained model to ONNX format
