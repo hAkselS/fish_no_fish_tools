@@ -19,6 +19,7 @@ print(torch.cuda.is_available())  # Should return True
 print(torch.version.cuda)  # Should show 11.8 or similar
 
 class Args():
+    '''A class to store arguments for easy access.'''
     def __init__(self):
         self.base_path = os.getcwd() 
         self.base_model = 'yolo11n.pt'
