@@ -37,18 +37,6 @@ colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
 
 plt.figure(figsize=(15,10))
 # plt.plot(df['Epoch'], df[])
-
-
-# Print out the max mAP scores and the epoch they were achieved at
-max_map50 = df['metrics/mAP50(B)'].max()
-max_map50_epoch = df[df['metrics/mAP50(B)'] == max_map50]['epoch'].values[0]
-
-max_map50_95 = df['metrics/mAP50-95(B)'].max()
-max_map50_95_epoch = df[df['metrics/mAP50-95(B)'] == max_map50_95]['epoch'].values[0]
-
-
-print(f"Max mAP50: {max_map50} at epoch {max_map50_epoch}")
-print(f"Max mAP50-95: {max_map50_95} at epoch {max_map50_95_epoch}")
     
 # Calculate fitness
 """Referenced weights from: https://github.com/ultralytics/ultralytics/issues/14137"""
@@ -58,4 +46,11 @@ df["fitness"] = df["metrics/mAP50(B)"] * 0.1 + df["metrics/mAP50-95(B)"] * 0.9
 # Find the epoch with the highest fitness
 best_epoch = df['fitness'].idxmax() + 1
 
+# Disclaimer
+print("\nDISCLAIMER: the follow statistics indicate the models metrics during the 'best' epoch at which time YOLO saves the best.pt model weights.\n")
+
+# Print model stats at best epoch
 print(f"Best model was saved at epoch: {best_epoch}")
+print(f"mAP50 at best epoch = {df['metrics/mAP50(B)'][best_epoch]}")
+print(f"mAP50-95 at best epoch = {df['metrics/mAP50-95(B)'][best_epoch]}")
+
