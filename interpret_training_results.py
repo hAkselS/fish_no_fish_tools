@@ -51,6 +51,8 @@ print("\nDISCLAIMER: the follow statistics indicate the models metrics during th
 
 # Print model stats at best epoch
 print(f"Best model was saved at epoch: {best_epoch}")
+print(f"Precision at best epoch: {df['metrics/precision(B)'][best_epoch]}")
+print(f"Recall at best epoch: {df['metrics/recall(B)'][best_epoch]}")
 print(f"mAP50 at best epoch = {df['metrics/mAP50(B)'][best_epoch]}")
 print(f"mAP50-95 at best epoch = {df['metrics/mAP50-95(B)'][best_epoch]}")
 
