@@ -56,3 +56,9 @@ print(f"Recall at best epoch: {df['metrics/recall(B)'][best_epoch]}")
 print(f"mAP50 at best epoch = {df['metrics/mAP50(B)'][best_epoch]}")
 print(f"mAP50-95 at best epoch = {df['metrics/mAP50-95(B)'][best_epoch]}")
 
+# True for existing (01/28/2025) FNF model 
+# Best model was saved at epoch: 38
+# Precision at best epoch: 0.89509
+# Recall at best epoch: 0.85339
+# mAP50 at best epoch = 0.92893
+# mAP50-95 at best epoch = 0.60977
