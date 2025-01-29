@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 '''Innput name and fully qualified path to CSV below!'''
-csv_file_name_and_path = '/Users/akselsloan/Desktop/NOAA/Object_Detection/fish_no_fish_tools/models/accepted/fnf_v1/train3(fnf_candidate_2)/results.csv'
+csv_file_name_and_path = '/home/gpu_enjoyer/fish_no_fish_tools/models/accepted/fnf_v1/train3(fnf_candidate_2)/results.csv'
 
 # Read the CSV file
 try:

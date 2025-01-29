@@ -1,19 +1,23 @@
 from ultralytics import YOLO
 '''See: https://docs.ultralytics.com/modes/val/#arguments-for-yolo-model-validation'''
 
+class Args():
+    def __init__(self):
+        self.model_path = "/home/gpu_enjoyer/fish_no_fish_tools/models/accepted/fnf_v1/train3(fnf_candidate_2)/weights/best(used in fnf on MM).pt"
+        self.dataset_yaml = "/home/gpu_enjoyer/fish_no_fish_tools/data/fish_dataset.yaml"
+        self.confidence = .25
+
+# Instantiate a class to hold variables
+args = Args() 
+
 # Load a model
-model = YOLO("yolo11n.pt")  # load an official model
-model = YOLO("path/to/best.pt")  # load a custom model
+model = YOLO(args.model_path)  # load a custom model
 
-# View existing model confidence
-print("Model.conf: {model.conf}")
 
-# Set new model confidence
-model.conf = .4
 
 # Validate the model
-metrics = model.val()  # no arguments needed, dataset and settings remembered
-metrics.box.map  # map50-95
-metrics.box.map50  # map50
-metrics.box.map75  # map75
-metrics.box.maps  # a list contains map50-95 of each category
+metrics = model.val(data=args.dataset_yaml, conf = args.confidence)  
+print(f"map50-95: {metrics.box.map}")  # map50-95
+print(f"map50: {metrics.box.map50}")  # map50
+print(f"map75: {metrics.box.map75}")  # map75
+#metrics.box.maps  # a list contains map50-95 of each category
