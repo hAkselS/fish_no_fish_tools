@@ -25,25 +25,22 @@ class Args():
         self.base_model = 'yolo11n.pt'
 
         # Training arguments (inputs to model.train)
-        self.yaml_file_path = os.path.join(self.base_path, 'data/fish_dataset.yaml') # Insert name of dataset yaml here
+        self.yaml_file_path = os.path.join(self.base_path, 'data/fish_dataset.yaml')                    # Insert name of dataset yaml here
         self.epochs = 300
-        self.images = 640
+        self.image_size = 720
         self.batch = 8                  # How many images go into the gpu at once (adjust as needed)
         self.initial_lr = 0.001         # Initial learning rate (for Cosine Annealing)
         self.final_lr = 0.0001          # Final learning rate 
         self.optimizer = 'AdamW'        # Best performance 
-        self.patients = 10              # Early stopping if no improvements after 10 epochs
-        self.save_period = 10           # Save model checkpoint after X epochs
+        self.patients = 270              # Early stopping if no improvements after X epochs
+        self.save_period = 20           # Save model checkpoint after X epochs
         self.augment = True             # Enable data augmentation 
         self.mosaic = True              # Use mosaic augmentation 
         self.mixup = True               # Use mixup augmentation 
         self.cos_lr = True              # Cosing annealing learning rate
-        self.project_dir = 'runs/n_logs_v1'     # Where logs and weights are saved
+        self.project_dir = 'models/new'         # Where logs and weights are saved
         self.auto_augment = 'autoaugment'       # Automatic data augmentation 
 
-        # Saving arguments (how should things be named and where should they go)
-        self.save_location = os.path.join(self.base_path, 'models/new')
-        self.model_save_name = 'yolo11n_2016_fish_v3.pt'
 
         # Optional formats 
         self.save_onnx = False
@@ -100,7 +97,7 @@ for param in fish_no_fish.model.model.parameters():
 fish_no_fish.train(
     data=args.yaml_file_path,
     epochs=args.epochs,
-    imgsz=args.images,
+    imgsz=args.image_size,
     batch=args.batch,  # Adjust batch size based on GPU capacity
     lr0=args.initial_lr,  # Initial learning rate
     lrf=args.final_lr,  # Final learning rate (used for Cosine Annealing)

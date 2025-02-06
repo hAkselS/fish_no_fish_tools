@@ -1,8 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-'''Innput name and fully qualified path to CSV below!'''
-csv_file_name_and_path = '/home/gpu_enjoyer/fish_no_fish_tools/models/accepted/fnf_v1/train3(fnf_candidate_2)/results.csv'
+'''Input name and fully qualified path to CSV below!'''
+csv_file_name_and_path = '/home/gpu_enjoyer/fish_no_fish_tools/models/new/fnf_40_epoch_720sz(2!!)/results.csv'
+'''^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'''
 
 # Read the CSV file
 try:
@@ -49,12 +50,14 @@ best_epoch = df['fitness'].idxmax() + 1
 # Disclaimer
 print("\nDISCLAIMER: the follow statistics indicate the models metrics during the 'best' epoch at which time YOLO saves the best.pt model weights.\n")
 
+print(f"File used:{csv_file_name_and_path}\n")
+
 # Print model stats at best epoch
 print(f"Best model was saved at epoch: {best_epoch}")
+print(f"mAP50-95 at best epoch = {df['metrics/mAP50-95(B)'][best_epoch]}")
+print(f"mAP50 at best epoch = {df['metrics/mAP50(B)'][best_epoch]}")
 print(f"Precision at best epoch: {df['metrics/precision(B)'][best_epoch]}")
 print(f"Recall at best epoch: {df['metrics/recall(B)'][best_epoch]}")
-print(f"mAP50 at best epoch = {df['metrics/mAP50(B)'][best_epoch]}")
-print(f"mAP50-95 at best epoch = {df['metrics/mAP50-95(B)'][best_epoch]}")
 
 # True for existing (01/28/2025) FNF model 
 # Best model was saved at epoch: 38
